@@ -1,0 +1,247 @@
+/*
+ * abap-parse playground
+ * Matching zaneham.com style: IBM Plex, minimal, no nonsense
+ */
+
+:root {
+  --bg: #fafaf8;
+  --text: #1a1a1a;
+  --text-muted: #555;
+  --accent: #2d5a7b;
+  --rule: #ddd;
+  --pane-bg: #fff;
+  --pane-border: #ddd;
+  --max-width: 900px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+body {
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 3rem 1.5rem;
+}
+
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* Typography */
+
+h1 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.75rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+h2 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+
+header {
+  margin-bottom: 2.5rem;
+}
+
+.tagline {
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+.site-nav {
+  margin-top: 1rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+}
+
+.site-nav a {
+  color: var(--text-muted);
+  margin-right: 1.5rem;
+}
+
+.site-nav a:hover {
+  color: var(--accent);
+}
+
+/* Sections */
+
+section {
+  margin: 2.5rem 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2.5rem 0;
+}
+
+/* Playground */
+
+.editor-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pane label {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.pane textarea {
+  width: 100%;
+  height: 400px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding: 1rem;
+  border: 1px solid var(--pane-border);
+  border-radius: 2px;
+  background: var(--pane-bg);
+  color: var(--text);
+  resize: vertical;
+  tab-size: 2;
+}
+
+.pane textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.pane textarea[readonly] {
+  background: #f8f8f6;
+  cursor: default;
+}
+
+.controls {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+button {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.5rem 1.5rem;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+button:hover {
+  background: var(--accent);
+}
+
+.status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Feature grid */
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.feature-grid h3 {
+  margin-top: 0;
+}
+
+.feature-grid p {
+  font-size: 0.9rem;
+}
+
+/* Footer */
+
+footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+footer p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Responsive */
+
+@media (max-width: 700px) {
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    padding: 2rem 1.25rem;
+  }
+
+  .editor-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .pane textarea {
+    height: 250px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}

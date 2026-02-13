@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>abap-parse</title>
+  <meta name="description" content="ABAP parser in OCaml. Paste ABAP, see the AST.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>abap-parse</h1>
+      <p class="tagline">Hand-rolled ABAP parser in OCaml. No reserved keywords, no compromises.</p>
+      <nav class="site-nav">
+        <a href="https://github.com/Zaneham/abap-parse">Source</a>
+        <a href="https://github.com/Zaneham/abap-parse/releases">Download</a>
+        <a href="https://zaneham.com">Author</a>
+      </nav>
+    </header>
+
+    <hr>
+
+    <section class="playground">
+      <h2>Playground</h2>
+      <p>Paste ABAP. See the AST. No install required.</p>
+
+      <div class="editor-wrap">
+        <div class="pane">
+          <label for="input">ABAP</label>
+          <textarea id="input" spellcheck="false">REPORT ztest.
+
+DATA: lv_name TYPE string,
+      lv_age  TYPE i VALUE 25.
+
+lv_name = 'Hello World'.
+
+IF lv_age > 18.
+  WRITE: / lv_name, lv_age.
+ENDIF.
+
+DATA(lv_msg) = |Hello { lv_name }, age { lv_age }|.
+
+cl_class=>static_method( ).
+result = a + b * c ** 2.
+text = 'can''t stop' && ` won't stop`.</textarea>
+        </div>
+        <div class="pane">
+          <label for="output">AST</label>
+          <textarea id="output" readonly spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="parse-btn" onclick="doParse()">Parse</button>
+        <span id="status" class="status"></span>
+      </div>
+    </section>
+
+    <hr>
+
+    <section class="features">
+      <h2>What it parses</h2>
+
+      <div class="feature-grid">
+        <div>
+          <h3>Expressions</h3>
+          <p>
+            Pratt parser with 10 precedence levels. Arithmetic, boolean, string
+            comparison operators. Constructor expressions: NEW, VALUE, CONV, CAST,
+            COND, SWITCH, REF, CORRESPONDING. String templates. Table expressions.
+          </p>
+        </div>
+        <div>
+          <h3>Statements</h3>
+          <p>
+            IF/CASE/DO/WHILE/LOOP. DATA chains with BEGIN OF. Inline declarations.
+            FORM/PERFORM. WRITE. APPEND/INSERT/DELETE/SORT. MOVE. ASSIGN TO.
+            Unrecognised statements degrade gracefully to SUnknown.
+          </p>
+        </div>
+        <div>
+          <h3>OO ABAP</h3>
+          <p>
+            CLASS DEFINITION/IMPLEMENTATION with inheritance. METHOD. INTERFACE.
+            TRY/CATCH/CLEANUP. RAISE. CREATE OBJECT. CALL FUNCTION/METHOD.
+            Member access via ->, =>, ~.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Technical</h2>
+      <p>
+        Hand-rolled lexer with mode stack for string templates. Recursive descent
+        parser with Pratt expression parsing. Keywords are not reserved. The
+        parser disambiguates from context. Whitespace before parentheses distinguishes
+        function calls from grouping. Every AST node carries source location.
+      </p>
+      <p>
+        Written in OCaml. No parser generators. Apache 2.0 licensed.
+      </p>
+    </section>
+
+    <footer>
+      <p>Built by <a href="https://zaneham.com">Zane Hambly</a>. Apache 2.0.</p>
+    </footer>
+  </main>
+
+  <script src="abap_parse.js"></script>
+  <script>
+    // js_of_ocaml exports to module.exports in Node, window in browser
+    var parser = (typeof abapParse !== 'undefined') ? abapParse :
+                 (typeof module !== 'undefined' && module.exports && module.exports.abapParse) ?
+                 module.exports.abapParse : null;
+    var ready = (parser !== null);
+
+    function doParse() {
+      var input = document.getElementById('input').value;
+      var output = document.getElementById('output');
+      var status = document.getElementById('status');
+
+      if (!ready) {
+        output.value = 'Parser not loaded. Download the CLI from GitHub instead.';
+        status.textContent = '';
+        return;
+      }
+
+      try {
+        var t0 = performance.now();
+        var result = parser.parse(input);
+        var dt = (performance.now() - t0).toFixed(1);
+        output.value = result;
+        status.textContent = dt + ' ms';
+      } catch (e) {
+        output.value = 'Error: ' + e.message;
+        status.textContent = '';
+      }
+    }
+
+    // Parse on load if the JS is available
+    if (ready) {
+      doParse();
+      document.getElementById('status').textContent = 'ready';
+    } else {
+      document.getElementById('output').value =
+        'Parser JS not loaded.\n\n' +
+        'To build it:\n' +
+        '  opam exec -- dune build playground/main.bc.js\n' +
+        '  cp _build/default/playground/main.bc.js docs/abap_parse.js\n\n' +
+        'Or download the CLI from GitHub.';
+    }
+  </script>
+</body>
+</html>

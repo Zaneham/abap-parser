@@ -1,0 +1,10 @@
+opam-version: "2.0"
+name: "abap"
+version: "0.1.0"
+synopsis: "ABAP parser library"
+description: "A fast, correct ABAP parser written in OCaml. Handles classic ABAP, ABAP Objects, Open SQL, and 7.40+ syntax."
+license: "MIT"
+depends: [
+  "ocaml" {>= "5.0"}
+  "dune" {>= "3.0"}
+]

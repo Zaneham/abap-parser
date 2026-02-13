@@ -1,0 +1,12 @@
+_build/
+*.byte
+*.native
+*.install
+.merlin
+*.cmi
+*.cmo
+*.cmx
+*.cma
+*.cmxa
+*.o
+*.a
