@@ -33,10 +33,6 @@ DATA(lv_msg) = |Hello { lv_name }, age { lv_age }|.
 
 ## Install
 
-### Pre-built binaries
-
-Grab one from [Releases](https://github.com/Zaneham/abap-parse/releases). Single executable, nothing else needed.
-
 ### From source
 
 You'll need OCaml 5.x and dune.
